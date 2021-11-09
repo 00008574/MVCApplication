@@ -13,22 +13,21 @@ using Newtonsoft.Json;
 
 namespace CW1_MVCApplication_8574.Controllers
 {
-    public class ProductController : Controller
+    public class CategoryController : Controller
     {
         private readonly CW1_MVCApplication_8574Context _context;
         private string Baseurl = "https://localhost:44397/";
-
-        public ProductController(CW1_MVCApplication_8574Context context)
+        public CategoryController(CW1_MVCApplication_8574Context context)
         {
             _context = context;
         }
 
-        // GET: Product
+        // GET: Category
         public async Task<IActionResult> Index()
         {
             //Hosted web API REST Service base url
             string Baseurl = "https://localhost:44397/";
-            List<Product> ProdInfo = new List<Product>();
+            List<Category> CatInfo = new List<Category>();
             using (var client = new HttpClient())
             {
                 //Passing service base url
@@ -38,52 +37,6 @@ namespace CW1_MVCApplication_8574.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new
                MediaTypeWithQualityHeaderValue("application/json"));
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient
-                HttpResponseMessage Res = await client.GetAsync("api/Product");
-                //Checking the response is successful or not which is sent using HttpClient
-                if (Res.IsSuccessStatusCode)
-                {
-                    //Storing the response details recieved from web api
-                    var ProdResponse = Res.Content.ReadAsStringAsync().Result;
-                    //Deserializing the response recieved from web api and storing into the Product list
-                    ProdInfo = JsonConvert.DeserializeObject<List<Product>>(ProdResponse);
-                }
-                //returning the Product list to view
-                return View(ProdInfo);
-            }
-        }
-
-        // GET: Product/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            string Baseurl = "https://localhost:44397/";
-            Product product = null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(Baseurl);
-                HttpResponseMessage Res = await client.GetAsync("api/Product/" + id);
-
-                if (Res.IsSuccessStatusCode)
-                {
-                    var ProdResponse = Res.Content.ReadAsStringAsync().Result;
-
-                    product = JsonConvert.DeserializeObject<Product>(ProdResponse);
-                }
-                else
-                    ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
-            }
-
-            return View(product);
-        }
-
-        // GET: Product/Create
-        public async Task<IActionResult> CreateAsync()
-        {
-            List<Category> ProdInfo = new List<Category>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(Baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage Res = await client.GetAsync("api/Category");
                 //Checking the response is successful or not which is sent using HttpClient
                 if (Res.IsSuccessStatusCode)
@@ -91,19 +44,48 @@ namespace CW1_MVCApplication_8574.Controllers
                     //Storing the response details recieved from web api
                     var Response = Res.Content.ReadAsStringAsync().Result;
                     //Deserializing the response recieved from web api and storing into the Product list
-                    ProdInfo = JsonConvert.DeserializeObject<List<Category>>(Response);
+                    CatInfo = JsonConvert.DeserializeObject<List<Category>>(Response);
                 }
+                //returning the Product list to view
+                return View(CatInfo);
             }
-            ViewData["ProductCategory"] = new SelectList(ProdInfo, "Id", "Name");
+        }
+
+        // GET: Category/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            string Baseurl = "https://localhost:44397/";
+            Category category = null;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                HttpResponseMessage Res = await client.GetAsync("api/Category/" + id);
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    var CatResponse = Res.Content.ReadAsStringAsync().Result;
+
+                    category = JsonConvert.DeserializeObject<Category>(CatResponse);
+                }
+                else
+                    ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+            }
+
+            return View(category);
+        }
+
+        // GET: Category/Create
+        public IActionResult Create()
+        {
             return View();
         }
 
-        // POST: Product/Create
+        // POST: Category/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,ProductCategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -111,72 +93,47 @@ namespace CW1_MVCApplication_8574.Controllers
                 using (var client = new HttpClient())
                 {
                     var randomNumber = new Random();
-                    product.Id = randomNumber.Next(200);
+                    category.Id = randomNumber.Next(200);
                     client.BaseAddress = new Uri(Baseurl);
-                    var postTask = await client.PostAsJsonAsync<Product>("api/Product", product);
+                    var postTask = await client.PostAsJsonAsync<Category>("api/Category", category);
                     if (postTask.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Index");
                     }
                 }
             }
-            return View(product);
+            return View(category);
         }
 
-        // GET: Product/Edit/5
+        // GET: Category/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            List<Category> phones = new List<Category>();
+            string Baseurl = "https://localhost:44397/";
+            Category category = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync("api/Category");
-                //Checking the response is successful or not which is sent using HttpClient
-                if (Res.IsSuccessStatusCode)
-                {
-                    //Storing the response details recieved from web api
-                    var Response = Res.Content.ReadAsStringAsync().Result;
-                    //Deserializing the response recieved from web api and storing into the Product list
-                    phones = JsonConvert.DeserializeObject<List<Category>>(Response);
-                }
-            }
-
-            Product product = null;
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(Baseurl);
-                HttpResponseMessage Res = await client.GetAsync("api/Product/" + id);
+                HttpResponseMessage Res = await client.GetAsync("api/Category/" + id);
                 if (Res.IsSuccessStatusCode)
                 {
                     var Response = Res.Content.ReadAsStringAsync().Result;
-                    product = JsonConvert.DeserializeObject<Product>(Response);
+                    category = JsonConvert.DeserializeObject<Category>(Response);
                 }
                 else
                     ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
             }
-            ViewData["ProductCategory"] = new SelectList(phones, "Id", "Name", product.ProductCategoryId);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
+            return View(category);
+
         }
 
-        // POST: Product/Edit/5
+        // POST: Category/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,ProductCategoryId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Category category)
         {
-            if(id != product.Id)
+            if(id != category.Id)
             {
                 return NotFound();
             }
@@ -189,7 +146,7 @@ namespace CW1_MVCApplication_8574.Controllers
                     using (var client = new HttpClient())
                     {
                         client.BaseAddress = new Uri(Baseurl);
-                        HttpResponseMessage Res = await client.GetAsync("api/Product/" + id);
+                        HttpResponseMessage Res = await client.GetAsync("api/Category/" + id);
                         Product products = null;
                         //Checking the response is successful or not which is sent using HttpClient
                         if (Res.IsSuccessStatusCode)
@@ -200,7 +157,7 @@ namespace CW1_MVCApplication_8574.Controllers
                             products = JsonConvert.DeserializeObject<Product>(Response);
                         }
                         //HTTP POST
-                        var postTask = client.PutAsJsonAsync<Product>("api/Product/" + product.Id, product);
+                        var postTask = client.PutAsJsonAsync<Category>("api/Category/" + category.Id, category);
                         postTask.Wait();
                         var result = postTask.Result;
                         if (result.IsSuccessStatusCode)
@@ -214,7 +171,7 @@ namespace CW1_MVCApplication_8574.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!CategoryExists(category.Id))
                     {
                         return NotFound();
                     }
@@ -224,38 +181,38 @@ namespace CW1_MVCApplication_8574.Controllers
                     }
                 }
             }
-            return View(product);
+            return View(category);
         }
 
-        // GET: Product/Delete/5
+        // GET: Category/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            Product product = null;
+            Category category = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Baseurl);
-                HttpResponseMessage Res = await client.GetAsync("api/Product/" + id);
+                HttpResponseMessage Res = await client.GetAsync("api/Category/" + id);
 
                 if (Res.IsSuccessStatusCode)
                 {
                     var ProdResponse = Res.Content.ReadAsStringAsync().Result;
 
-                    product = JsonConvert.DeserializeObject<Product>(ProdResponse);
+                    category = JsonConvert.DeserializeObject<Category>(ProdResponse);
                 }
             }
-            if (product == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(category);
         }
 
-        // POST: Product/Delete/5
+        // POST: Category/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -264,7 +221,7 @@ namespace CW1_MVCApplication_8574.Controllers
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Baseurl);
-                HttpResponseMessage Res = await client.DeleteAsync("api/Product/" + id);
+                HttpResponseMessage Res = await client.DeleteAsync("api/Category/" + id);
 
                 if (Res.IsSuccessStatusCode)
                 {
@@ -277,9 +234,9 @@ namespace CW1_MVCApplication_8574.Controllers
             }
         }
 
-        private bool ProductExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Category.Any(e => e.Id == id);
         }
     }
 }

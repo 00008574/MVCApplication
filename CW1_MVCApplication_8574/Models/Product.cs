@@ -11,6 +11,8 @@ namespace CW1_MVCApplication_8574.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public int ProductCategoryId { get; set; }
+        //[Display(Name = "Category")]
         public Category ProductCategory { get; set; }
     }
 }

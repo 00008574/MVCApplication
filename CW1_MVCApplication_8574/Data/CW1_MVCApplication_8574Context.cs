@@ -15,5 +15,7 @@ namespace CW1_MVCApplication_8574.Data
         }
 
         public DbSet<CW1_MVCApplication_8574.Models.Product> Product { get; set; }
+
+        public DbSet<CW1_MVCApplication_8574.Models.Category> Category { get; set; }
     }
 }

@@ -151,3 +151,8 @@ C:\Users\c0mrade\Desktop\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVC
 C:\Users\c0mrade\Desktop\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\obj\Debug\net5.0\Razor\Views\Product\Details.cshtml.g.cs
 C:\Users\c0mrade\Desktop\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\obj\Debug\net5.0\Razor\Views\Product\Edit.cshtml.g.cs
 C:\Users\c0mrade\Desktop\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\obj\Debug\net5.0\Razor\Views\Product\Index.cshtml.g.cs
+C:\Users\c0mrade\Desktop\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\obj\Debug\net5.0\Razor\Views\Category\Create.cshtml.g.cs
+C:\Users\c0mrade\Desktop\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\obj\Debug\net5.0\Razor\Views\Category\Delete.cshtml.g.cs
+C:\Users\c0mrade\Desktop\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\obj\Debug\net5.0\Razor\Views\Category\Details.cshtml.g.cs
+C:\Users\c0mrade\Desktop\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\obj\Debug\net5.0\Razor\Views\Category\Edit.cshtml.g.cs
+C:\Users\c0mrade\Desktop\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\CW1_MVCApplication_8574\obj\Debug\net5.0\Razor\Views\Category\Index.cshtml.g.cs
